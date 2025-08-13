@@ -23,6 +23,15 @@ export default class Cliente extends Model {
         cpf: {
           type: Sequelize.STRING,
           defaultValue: '',
+          unique: {
+            msg: 'CPF já cadastrado',
+          },
+          validate: {
+            len: {
+              args: [11],
+              msg: 'CPF deve conter 11 numeros',
+            },
+          },
         },
         cnpj: {
           type: Sequelize.STRING,
