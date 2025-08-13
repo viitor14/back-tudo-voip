@@ -1,0 +1,41 @@
+{
+  "name": "api_rest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
+    "build": "sucrase ./src -d ./dist --transforms imports",
+    "start": "npx sequelize-cli db:migrate && node dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "nodemon": "^3.1.4",
+    "sequelize-cli": "^6.6.2",
+    "sucrase": "^3.35.0"
+  },
+  "dependencies": {
+    "@huggingface/inference": "^3.8.1",
+    "axios": "^1.8.4",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^9.0.2",
+    "mariadb": "^3.3.1",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.4",
+    "openai": "^4.95.1",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "puppeteer": "^24.7.0",
+    "sequelize": "^6.37.3"
+  }
+}
