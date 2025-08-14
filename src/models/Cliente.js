@@ -22,20 +22,31 @@ export default class Cliente extends Model {
         },
         cpf: {
           type: Sequelize.STRING,
-          defaultValue: '',
+          defaultValue: null, // MUDANÇA 1: Usar null em vez de string vazia
           unique: {
             msg: 'CPF já cadastrado',
           },
           validate: {
-            len: {
-              args: [11],
-              msg: 'CPF deve conter 11 numeros',
+            validaCpf(value) {
+              if (value && value.length !== 11) {
+                throw new Error('CPF deve conter 11 números.');
+              }
             },
           },
         },
         cnpj: {
           type: Sequelize.STRING,
-          defaultValue: '',
+          defaultValue: null,
+          unique: {
+            msg: 'CNPJ já cadastrado',
+          },
+          validate: {
+            validaCnpj(value) {
+              if (value && value.length !== 14) {
+                throw new Error('CNPJ deve conter 14 números.');
+              }
+            },
+          },
         },
 
         cod_usuario: {

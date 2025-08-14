@@ -43,7 +43,7 @@ export default class User extends Model {
         },
         status: {
           type: Sequelize.BOOLEAN,
-          defaultValue: 'false',
+          defaultValue: 'true',
         },
       },
       {
