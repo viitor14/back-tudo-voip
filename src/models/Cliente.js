@@ -1,3 +1,5 @@
+// Arquivo: src/models/Cliente.js (Versão Completa e Corrigida)
+
 import Sequelize, { Model } from 'sequelize';
 
 export default class Cliente extends Model {
@@ -6,23 +8,25 @@ export default class Cliente extends Model {
       {
         cod_cliente: {
           type: Sequelize.INTEGER,
-          primaryKey: true, // Informa que esta é a chave primária
-          autoIncrement: true, // Informa que ela é auto-incremental
+          primaryKey: true,
+          autoIncrement: true,
         },
-
         nome_cliente: {
-          type: Sequelize.STRING,
-          defaultValue: '',
+          type: Sequelize.STRING(180),
+          allowNull: false,
           validate: {
+            notEmpty: {
+              msg: 'O nome do cliente não pode ficar vazio.',
+            },
             len: {
-              args: [3, 50],
-              msg: 'Nome de conter 3 a 50 caracteres',
+              args: [3, 180],
+              msg: 'Nome deve conter de 3 a 180 caracteres.',
             },
           },
         },
         cpf: {
-          type: Sequelize.STRING,
-          defaultValue: null, // MUDANÇA 1: Usar null em vez de string vazia
+          type: Sequelize.STRING(11),
+          defaultValue: null,
           unique: {
             msg: 'CPF já cadastrado',
           },
@@ -35,7 +39,7 @@ export default class Cliente extends Model {
           },
         },
         cnpj: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(14),
           defaultValue: null,
           unique: {
             msg: 'CNPJ já cadastrado',
@@ -48,32 +52,38 @@ export default class Cliente extends Model {
             },
           },
         },
-
-        cod_usuario: {
-          type: Sequelize.INTEGER,
-          defaultValue: '',
-        },
         status: {
           type: Sequelize.BOOLEAN,
-          defaultValue: 'false',
+          defaultValue: true,
         },
       },
       {
         sequelize,
         tableName: 'cliente',
+        timestamps: false,
+        validate: {
+          cpfOuCnpj() {
+            if (!this.cpf && !this.cnpj) {
+              throw new Error('É necessário fornecer um CPF ou um CNPJ.');
+            }
+          },
+        },
       },
     );
-
-    // Antes de salvar dados, essa função será executada
-
     return this;
   }
 
   static associate(models) {
-    // 'este' modelo (Cliente) pertence a (belongsTo) um 'User'
+    // Define a relação: Um Cliente pertence a um Usuário
     this.belongsTo(models.User, {
       foreignKey: 'cod_usuario',
       as: 'usuario',
+    });
+
+    // Define a relação: Um Cliente pode ter muitos Pedidos
+    this.hasMany(models.Pedido, {
+      foreignKey: 'cod_cliente',
+      as: 'pedidos', // Usando o apelido no plural para a relação hasMany
     });
   }
 }
