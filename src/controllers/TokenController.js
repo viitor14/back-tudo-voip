@@ -3,11 +3,11 @@ import User from '../models/User';
 
 class TokenController {
   async store(req, res) {
-    const { email = '', password = '' } = req.body; // Recebe EMAIL e PASSWORD como requição
+    const { email = '', password = '' } = req.body;
 
     if (!email || !password) {
       return res.status(401).json({
-        errors: ['Credenciais invalidas'],
+        errors: ['Credenciais inválidas'],
       });
     }
 
@@ -21,16 +21,17 @@ class TokenController {
 
     if (!(await user.passwordIsValid(password))) {
       return res.status(401).json({
-        errors: ['Senha invalida'],
+        errors: ['Senha inválida'],
       });
     }
 
-    const { id } = user;
-    const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
+    // AQUI ESTÁ A CORREÇÃO
+    const { cod_usuario } = user;
+    const token = jwt.sign({ id: cod_usuario, email }, process.env.TOKEN_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
 
-    return res.json({ token });
+    return res.json({ token, user: { nome: user.nome, email: user.email } });
   }
 }
 

@@ -18,7 +18,7 @@ export default async (req, res, next) => {
 
     const user = await User.findOne({
       where: {
-        id,
+        cod_usuario: id, // Use 'cod_usuario' para a consulta
         email,
       },
     });
@@ -32,6 +32,7 @@ export default async (req, res, next) => {
     // Na proxima função que conter depois desse middlewares na rota, vai ser enviado o ID e EMAIL
     req.userId = id;
     req.userEmail = email;
+    req.isAdmin = user.admin;
     return next(); // Executa a proxima função (CONTROLLER)
   } catch (e) {
     return res.status(401).json({
