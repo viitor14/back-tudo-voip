@@ -81,6 +81,50 @@ class PedidoController {
       return res.status(500).json({ errors: ['Ocorreu um erro ao buscar os pedidos.'] });
     }
   }
+
+  async update(req, res) {
+    try {
+      // 1. Pega o ID do pedido a ser atualizado a partir dos parâmetros da URL (ex: /pedidos/15)
+      const { id } = req.params;
+
+      // 2. Busca o pedido no banco de dados para garantir que ele existe
+      const pedido = await Pedido.findByPk(id);
+
+      if (!pedido) {
+        return res.status(404).json({
+          errors: ['Pedido não encontrado.'],
+        });
+      }
+
+      // 3. LÓGICA DE PERMISSÃO
+      if (!req.isAdmin) {
+        // REGRA 1: Se não for admin, o usuário NÃO PODE alterar o status do pedido.
+        if (req.body.status_pedido) {
+          return res.status(403).json({
+            errors: ['Você não tem permissão para alterar o status do pedido.'],
+          });
+        }
+
+        /* REGRA 2: Garante que o usuário só possa alterar seus próprios pedidos.
+        const clienteDoUsuario = await Cliente.findOne({ where: { cod_usuario: req.userId } });
+        if (!clienteDoUsuario || pedido.cod_cliente !== clienteDoUsuario.cod_cliente) {
+          return res.status(403).json({
+            errors: ['Você não tem permissão para alterar este pedido.'],
+          });
+        }
+        */
+      }
+
+      // 4. Se todas as permissões foram validadas, atualiza o pedido
+      const pedidoAtualizado = await pedido.update(req.body);
+
+      return res.json(pedidoAtualizado);
+    } catch (e) {
+      console.error('ERRO AO ATUALIZAR PEDIDO:', e);
+      const errorMessages = e.errors ? e.errors.map((err) => err.message) : [e.message];
+      return res.status(400).json({ errors: errorMessages });
+    }
+  }
 }
 
 export default new PedidoController();
