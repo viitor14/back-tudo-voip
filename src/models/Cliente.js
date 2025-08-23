@@ -1,6 +1,7 @@
 // Arquivo: src/models/Cliente.js (Versão Completa e Corrigida)
 
 import Sequelize, { Model } from 'sequelize';
+import bcryptjs from 'bcryptjs';
 
 export default class Cliente extends Model {
   static init(sequelize) {
@@ -11,19 +12,7 @@ export default class Cliente extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
-        nome_cliente: {
-          type: Sequelize.STRING(180),
-          allowNull: false,
-          validate: {
-            notEmpty: {
-              msg: 'O nome do cliente não pode ficar vazio.',
-            },
-            len: {
-              args: [3, 180],
-              msg: 'Nome deve conter de 3 a 180 caracteres.',
-            },
-          },
-        },
+
         cpf: {
           type: Sequelize.STRING(11),
           defaultValue: null,
@@ -38,6 +27,17 @@ export default class Cliente extends Model {
             },
           },
         },
+
+        nome_completo: {
+          type: Sequelize.STRING(180),
+          validate: {
+            len: {
+              args: [3, 180],
+              msg: 'Nome deve conter de 3 a 180 caracteres.',
+            },
+          },
+        },
+
         cnpj: {
           type: Sequelize.STRING(14),
           defaultValue: null,
@@ -52,6 +52,51 @@ export default class Cliente extends Model {
             },
           },
         },
+
+        nome_empresa: {
+          type: Sequelize.STRING(180),
+          validate: {
+            len: {
+              args: [3, 180],
+              msg: 'Nome deve conter de 3 a 180 caracteres.',
+            },
+          },
+        },
+
+        email: {
+          type: Sequelize.STRING,
+          defaultValue: '',
+          unique: {
+            msg: 'email ja existe',
+          },
+          validate: {
+            isEmail: {
+              msg: 'Email inválido',
+            },
+          },
+        },
+
+        senha: {
+          type: Sequelize.STRING,
+          defaultValue: '',
+        },
+
+        password: {
+          type: Sequelize.VIRTUAL,
+          defaultValue: '',
+          validate: {
+            len: {
+              args: [6, 50],
+              msg: 'A senha deve ter entre 6 e 50 caractere',
+            },
+          },
+        },
+
+        admin: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: 'false',
+        },
+
         status: {
           type: Sequelize.BOOLEAN,
           defaultValue: true,
@@ -70,15 +115,21 @@ export default class Cliente extends Model {
         },
       },
     );
+
+    this.addHook('beforeSave', async (user) => {
+      if (user.password) {
+        user.senha = await bcryptjs.hash(user.password, 8);
+      }
+    });
     return this;
+  }
+
+  passwordIsValid(password) {
+    return bcryptjs.compare(password, this.senha);
   }
 
   static associate(models) {
     // Define a relação: Um Cliente pertence a um Usuário
-    this.belongsTo(models.User, {
-      foreignKey: 'cod_usuario',
-      as: 'usuario',
-    });
 
     // Define a relação: Um Cliente pode ter muitos Pedidos
     this.hasMany(models.Pedido, {

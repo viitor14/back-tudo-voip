@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import loginRequired from '../middlewares/loginRequired';
 import UserController from '../controllers/UserController';
+import ClienteController from '../controllers/ClienteController';
 
 const router = new Router();
 
@@ -9,7 +10,7 @@ const router = new Router();
 // router.get('/', userController.index); // Lista todos usuarios
 // router.get('/:id', userController.show); // Lista um usuario
 
-router.post('/', UserController.store);
+router.post('/', ClienteController.store);
 router.get('/', loginRequired, UserController.show); // Lista um usuario
 router.put('/', loginRequired, UserController.update);
 router.delete('/', loginRequired, UserController.delete);
