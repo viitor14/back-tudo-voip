@@ -1,10 +1,26 @@
 import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
-import User from '../models/User';
 import Cliente from '../models/Cliente';
+import Estado from '../models/Estado';
+import ZonaTelefonica from '../models/ZonaTelefonica';
+import ZonaTelefonicaPorEstado from '../models/ZonaTelefonicaPorEstado';
+import Cidade from '../models/Cidade';
+import TipoVenda from '../models/TipoVenda';
 import Pedido from '../models/Pedido';
+import Portabilidade from '../models/Portabilidade';
+import TermoContrato from '../models/TermoContrato';
 
-const models = [User, Cliente, Pedido];
+const models = [
+  Cliente,
+  Estado,
+  ZonaTelefonica,
+  ZonaTelefonicaPorEstado,
+  Cidade,
+  TipoVenda,
+  Pedido,
+  Portabilidade,
+  TermoContrato,
+];
 
 const connection = new Sequelize(databaseConfig);
 

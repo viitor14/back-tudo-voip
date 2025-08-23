@@ -9,60 +9,20 @@ export default class Pedido extends Model {
           primaryKey: true,
           autoIncrement: true,
         },
-        cod_cliente: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        unidade_federativa: {
-          type: Sequelize.STRING(50),
-          allowNull: false,
-          validate: {
-            notEmpty: {
-              msg: 'O campo Unidade Federativa não pode ser vazio.',
-            },
-          },
-        },
-        zona_telefonica: {
-          type: Sequelize.SMALLINT,
-          allowNull: false,
-          validate: {
-            isInt: {
-              msg: 'A zona telefônica deve ser um número.',
-            },
-          },
-        },
-        cidade: {
-          type: Sequelize.STRING(100),
-          allowNull: false,
-          validate: {
-            notEmpty: {
-              msg: 'O campo Cidade não pode ser vazio.',
-            },
-          },
-        },
-        cod_tipo_venda: {
-          type: Sequelize.SMALLINT,
-          allowNull: false,
-        },
-        quantidade_novos_numeros: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          defaultValue: 1,
-          validate: {
-            isInt: true,
-            min: {
-              args: [1],
-              msg: 'A quantidade de números deve ser no mínimo 1.',
-            },
-          },
-        },
-        observacoes: {
-          type: Sequelize.TEXT,
-          allowNull: true,
-        },
+        cod_cliente: { type: Sequelize.BIGINT, allowNull: false },
+        cod_estado: { type: Sequelize.INTEGER, allowNull: false },
+        cod_zona_telefonica: { type: Sequelize.INTEGER, allowNull: false },
+        cod_cidade: { type: Sequelize.INTEGER, allowNull: false },
+        cod_tipo_venda: { type: Sequelize.SMALLINT, allowNull: false },
+        quantidade_novos_numeros: { type: Sequelize.INTEGER, allowNull: true },
+        cpf: { type: Sequelize.STRING(11), allowNull: true },
+        nome_completo: { type: Sequelize.STRING(180), allowNull: true },
+        cnpj: { type: Sequelize.STRING(14), allowNull: true },
+        nome_empresa: { type: Sequelize.STRING(180), allowNull: true },
+        observacoes: { type: Sequelize.TEXT, allowNull: true },
+        data_pedido: { type: Sequelize.DATEONLY },
         status_pedido: {
-          type: Sequelize.ENUM('ATIVO', 'EM ANDAMENTO', 'CANCELADO'),
-          allowNull: false,
+          type: Sequelize.ENUM('CONCLUÍDO', 'EM ANDAMENTO', 'RECUSADO'),
           defaultValue: 'EM ANDAMENTO',
         },
         motivo_cancelamento: {
@@ -78,19 +38,22 @@ export default class Pedido extends Model {
       {
         sequelize,
         tableName: 'pedido',
-        timestamps: true, // Habilita o gerenciamento automático de datas
-        createdAt: 'data_pedido', // Mapeia 'createdAt' do Sequelize para a coluna 'data_pedido'
-        updatedAt: 'data_atualizacao', // Mapeia 'updatedAt' do Sequelize para a coluna 'data_atualizacao'
+        timestamps: false, // Suas colunas de data são manuais
       },
     );
     return this;
   }
 
-  // Define as relações com outras tabelas
   static associate(models) {
-    this.belongsTo(models.Cliente, {
-      foreignKey: 'cod_cliente',
-      as: 'cliente',
+    this.belongsTo(models.Cliente, { foreignKey: 'cod_cliente', as: 'cliente' });
+    this.belongsTo(models.Estado, { foreignKey: 'cod_estado', as: 'estado' });
+    this.belongsTo(models.ZonaTelefonica, {
+      foreignKey: 'cod_zona_telefonica',
+      as: 'zona_telefonica',
     });
+    this.belongsTo(models.Cidade, { foreignKey: 'cod_cidade', as: 'cidade' });
+    this.belongsTo(models.TipoVenda, { foreignKey: 'cod_tipo_venda', as: 'tipo_venda' });
+    this.hasMany(models.Portabilidade, { foreignKey: 'cod_pedido', as: 'portabilidades' });
+    this.hasMany(models.TermoContrato, { foreignKey: 'cod_pedido', as: 'termos_contrato' });
   }
 }

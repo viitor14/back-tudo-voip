@@ -1,5 +1,6 @@
+// Ficheiro: src/middlewares/loginRequired.js
 import jwt from 'jsonwebtoken';
-import User from '../models/User';
+import Cliente from '../models/Cliente';
 
 export default async (req, res, next) => {
   const { authorization } = req.headers;
@@ -14,29 +15,29 @@ export default async (req, res, next) => {
 
   try {
     const dados = jwt.verify(token, process.env.TOKEN_SECRET);
-    const { id, email } = dados;
-
-    const user = await User.findOne({
+    const { cod_cliente, email } = dados;
+    const cliente = await Cliente.findOne({
       where: {
-        cod_usuario: id, // Use 'cod_usuario' para a consulta
+        cod_cliente,
         email,
       },
     });
 
-    if (!user) {
+    if (!cliente) {
       return res.status(401).json({
-        errors: ['Usuario Invalido'],
+        errors: ['Utilizador Inválido'],
       });
     }
 
-    // Na proxima função que conter depois desse middlewares na rota, vai ser enviado o ID e EMAIL
-    req.userId = id;
-    req.userEmail = email;
-    req.isAdmin = user.admin;
-    return next(); // Executa a proxima função (CONTROLLER)
+    req.clienteId = cod_cliente;
+    req.clienteEmail = email;
+    req.isAdmin = cliente.admin;
+    return next();
   } catch (e) {
+    console.error('ERRO no jwt.verify:', e.name, '-', e.message);
+
     return res.status(401).json({
-      errors: ['Token expirado ou invalido'],
+      errors: ['Token expirado ou inválido'],
     });
   }
 };

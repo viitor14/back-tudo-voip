@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { Op } from 'sequelize'; // 1. IMPORTE O 'Op' PARA FAZER A CONSULTA 'OU'
-import User from '../models/User';
+import { Op } from 'sequelize';
 import Cliente from '../models/Cliente';
 
 class TokenController {
@@ -13,6 +12,7 @@ class TokenController {
       });
     }
 
+    // Procura o cliente pelo CPF ou CNPJ
     const cliente = await Cliente.findOne({
       where: {
         [Op.or]: [{ cpf: documento }, { cnpj: documento }],
@@ -21,31 +21,31 @@ class TokenController {
 
     if (!cliente) {
       return res.status(401).json({
-        errors: ['Credenciais inválidas'], // Mensagem genérica por segurança
+        errors: ['Utilizador não encontrado'],
       });
     }
 
-    const user = await User.findByPk(cliente.cod_usuario);
-
-    if (!user) {
+    if (!(await cliente.passwordIsValid(senha))) {
       return res.status(401).json({
-        errors: ['Usuário associado não encontrado'],
+        errors: ['Senha inválida'],
       });
     }
 
-    if (!(await user.passwordIsValid(senha))) {
-      return res.status(401).json({
-        errors: ['Credenciais inválidas'], // Mensagem genérica por segurança
-      });
-    }
+    const { cod_cliente, email, admin } = cliente;
 
-    // AQUI ESTÁ A CORREÇÃO
-    const { cod_usuario, email } = user;
-    const token = jwt.sign({ id: cod_usuario, email }, process.env.TOKEN_SECRET, {
+    // Gera o token com as informações do cliente
+    const token = jwt.sign({ cod_cliente, email, admin }, process.env.TOKEN_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
 
-    return res.json({ token, user: { nome: cliente.nome_cliente, email: user.email } });
+    return res.json({
+      token,
+      user: {
+        nome: cliente.nome_completo || cliente.nome_empresa,
+        email,
+        admin,
+      },
+    });
   }
 }
 
