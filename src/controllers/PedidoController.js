@@ -111,12 +111,12 @@ class PedidoController {
 
       const pedidos = await Pedido.findAll({
         where,
-        attributes: ['cod_pedido', 'data_pedido', 'status_pedido', 'nome_completo', 'nome_empresa'],
+
         include: [
-          { model: Cliente, as: 'cliente', attributes: ['email'] },
-          { model: Estado, as: 'estado', attributes: ['nome_estado'] },
-          { model: Cidade, as: 'cidade', attributes: ['nome_cidade'] },
-          { model: TipoVenda, as: 'tipo_venda', attributes: ['tipo_venda'] },
+          { model: Estado, as: 'estado' },
+          { model: Cidade, as: 'cidade' },
+          { model: ZonaTelefonica, as: 'zona_telefonica' }, // Adicionei a Zona Telefónica que faltava
+          { model: TipoVenda, as: 'tipo_venda' },
         ],
         order: [['data_pedido', 'DESC']],
       });

@@ -13,7 +13,7 @@ import userRoutes from './routes/userRoutes';
 import registroRoutes from './routes/registroRoutes';
 import pedidoRoutes from './routes/pedidoRoutes';
 
-const whiteList = ['http://localhost:3000', 'https://cejumic.vercel.app'];
+const whiteList = ['http://localhost:5173', 'https://cejumic.vercel.app'];
 
 const corsOptions = {
   origin(origin, callback) {

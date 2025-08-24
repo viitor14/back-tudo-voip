@@ -31,20 +31,17 @@ class TokenController {
       });
     }
 
-    const { cod_cliente, email, admin } = cliente;
+    const { cod_cliente, email, admin, nome_completo, nome_empresa } = cliente;
+    const nome = nome_completo || nome_empresa;
 
     // Gera o token com as informações do cliente
-    const token = jwt.sign({ cod_cliente, email, admin }, process.env.TOKEN_SECRET, {
+    const token = jwt.sign({ cod_cliente, email, admin, nome }, process.env.TOKEN_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
 
     return res.json({
       token,
-      user: {
-        nome: cliente.nome_completo || cliente.nome_empresa,
-        email,
-        admin,
-      },
+      user: { nome, email, admin },
     });
   }
 }
