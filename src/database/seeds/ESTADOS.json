@@ -1,0 +1,164 @@
+[
+  {
+    "cod_estado": 1,
+    "nome_estado": "ACRE",
+    "regiao": "NORTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 2,
+    "nome_estado": "ALAGOAS",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 3,
+    "nome_estado": "AMAZONAS",
+    "regiao": "NORTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 4,
+    "nome_estado": "AMAPA",
+    "regiao": "NORTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 5,
+    "nome_estado": "BAHIA",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 6,
+    "nome_estado": "CEARA",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 7,
+    "nome_estado": "DISTRITO FEDERAL",
+    "regiao": "CENTRO-OESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 8,
+    "nome_estado": "ESPÍRITO SANTO",
+    "regiao": "SUDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 9,
+    "nome_estado": "GOIAS",
+    "regiao": "CENTRO-OESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 10,
+    "nome_estado": "MARANHAO",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 11,
+    "nome_estado": "MINAS GERAIS",
+    "regiao": "SUDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 12,
+    "nome_estado": "MATO GROSSO DO SUL",
+    "regiao": "CENTRO-OESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 13,
+    "nome_estado": "MATO GROSSO",
+    "regiao": "CENTRO-OESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 14,
+    "nome_estado": "PARA",
+    "regiao": "NORTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 15,
+    "nome_estado": "PARAIBA",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 16,
+    "nome_estado": "PERNAMBUCO",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 17,
+    "nome_estado": "PIAUI",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 18,
+    "nome_estado": "PARANA",
+    "regiao": "SUL",
+    "status": "True"
+  },
+  {
+    "cod_estado": 19,
+    "nome_estado": "RIO DE JANEIRO",
+    "regiao": "SUDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 20,
+    "nome_estado": "RIO GRANDE DO NORTE",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 21,
+    "nome_estado": "RONDONIA",
+    "regiao": "NORTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 22,
+    "nome_estado": "RORAIMA",
+    "regiao": "NORTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 23,
+    "nome_estado": "RIO GRANDE DO SUL",
+    "regiao": "SUL",
+    "status": "True"
+  },
+  {
+    "cod_estado": 24,
+    "nome_estado": "SANTA CATARINA",
+    "regiao": "SUL",
+    "status": "True"
+  },
+  {
+    "cod_estado": 25,
+    "nome_estado": "SERGIPE",
+    "regiao": "NORDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 26,
+    "nome_estado": "SAO PAULO",
+    "regiao": "SUDESTE",
+    "status": "True"
+  },
+  {
+    "cod_estado": 27,
+    "nome_estado": "TOCANTINS",
+    "regiao": "NORTE",
+    "status": "True"
+  }
+]

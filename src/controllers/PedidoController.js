@@ -7,33 +7,19 @@ import ZonaTelefonicaPorEstado from '../models/ZonaTelefonicaPorEstado';
 import Estado from '../models/Estado';
 import ZonaTelefonica from '../models/ZonaTelefonica';
 import TipoVenda from '../models/TipoVenda';
+import TermoContrato from '../models/TermoContrato';
 
 class PedidoController {
-  // Criar um novo pedido de forma simplificada
   async store(req, res) {
-    // Inicia a transação
     const t = await sequelize.transaction();
 
     try {
-      const {
-        cod_cidade,
-        cod_tipo_venda,
-        numeros_portabilidade, // Novo campo
-        // ...outros campos
-      } = req.body;
+      const { cod_cidade, cod_tipo_venda, numeros_portabilidade } = req.body;
 
-      // Validação para portabilidade
-      // Supondo que o cod_tipo_venda para Portabilidade seja 2
-      if (cod_tipo_venda === 2) {
-        if (
-          !numeros_portabilidade ||
-          !Array.isArray(numeros_portabilidade) ||
-          numeros_portabilidade.length === 0
-        ) {
-          throw new Error(
-            'Para pedidos de portabilidade, é necessário fornecer pelo menos um número.',
-          );
-        }
+      if (cod_tipo_venda === 2 && (!numeros_portabilidade || numeros_portabilidade.length === 0)) {
+        throw new Error(
+          'Para pedidos de portabilidade, é necessário fornecer pelo menos um número.',
+        );
       }
 
       const clienteAutenticado = await Cliente.findByPk(req.clienteId);
@@ -55,33 +41,38 @@ class PedidoController {
         throw new Error('Cidade selecionada não encontrada.');
       }
 
-      const dadosPedido = {
+      const dadosBasePedido = {
         ...req.body,
         cod_cliente: clienteAutenticado.cod_cliente,
         cod_estado: cidadeInfo.zona_por_estado.estado.cod_estado,
         cod_zona_telefonica: cidadeInfo.zona_por_estado.zona_telefonica.cod_zona_telefonica,
         data_pedido: new Date(),
       };
+      delete dadosBasePedido.numeros_portabilidade;
 
-      // Cria o pedido dentro da transação
-      const novoPedido = await Pedido.create(dadosPedido, { transaction: t });
+      let pedidosCriados = [];
 
-      // Se for portabilidade, cria os registos na tabela de portabilidade
       if (cod_tipo_venda === 2) {
-        const portabilidadesParaCriar = numeros_portabilidade.map((numero) => ({
-          telefone: numero,
-          cod_pedido: novoPedido.cod_pedido,
-        }));
-
-        await Portabilidade.bulkCreate(portabilidadesParaCriar, { transaction: t });
+        const promises = numeros_portabilidade.map(async (numero) => {
+          const novoPedido = await Pedido.create(dadosBasePedido, { transaction: t });
+          await Portabilidade.create(
+            {
+              telefone: numero,
+              cod_pedido: novoPedido.cod_pedido,
+            },
+            { transaction: t },
+          );
+          return novoPedido;
+        });
+        pedidosCriados = await Promise.all(promises);
+      } else {
+        const novoPedido = await Pedido.create(dadosBasePedido, { transaction: t });
+        pedidosCriados.push(novoPedido);
       }
 
-      // Se tudo correu bem, confirma a transação
       await t.commit();
-
-      return res.json(novoPedido);
+      return res.status(201).json(pedidosCriados);
     } catch (e) {
-      // Se algo falhou, desfaz todas as operações
       await t.rollback();
       console.error('ERRO AO CRIAR PEDIDO:', e);
       const errors = e.errors ? e.errors.map((err) => err.message) : [e.message];
@@ -117,8 +108,9 @@ class PedidoController {
           { model: Cidade, as: 'cidade' },
           { model: ZonaTelefonica, as: 'zona_telefonica' }, // Adicionei a Zona Telefónica que faltava
           { model: TipoVenda, as: 'tipo_venda' },
+          { model: Portabilidade, as: 'portabilidade' },
         ],
-        order: [['data_pedido', 'DESC']],
+        order: [['cod_pedido', 'DESC']],
       });
 
       return res.json(pedidos);
@@ -146,6 +138,7 @@ class PedidoController {
           { model: Cidade, as: 'cidade' },
           { model: ZonaTelefonica, as: 'zona_telefonica' },
           { model: TipoVenda, as: 'tipo_venda' },
+          { model: Portabilidade, as: 'portabilidade', attributes: ['telefone'] },
         ],
       });
 
@@ -184,32 +177,46 @@ class PedidoController {
   }
 
   async destroy(req, res) {
-    try {
-      // 2. Pega o ID do pedido a ser excluído a partir dos parâmetros da URL
-      const { id } = req.params;
+    // Inicia a transação
+    const t = await sequelize.transaction();
 
-      // 3. Busca o pedido no banco de dados para garantir que ele existe
+    try {
+      if (!req.isAdmin && !req.clienteId) {
+        // Verificação de segurança
+        return res.status(403).json({ errors: ['Acesso negado.'] });
+      }
+
+      const { id } = req.params;
       const pedido = await Pedido.findByPk(id);
 
       if (!pedido) {
         return res.status(404).json({ errors: ['Pedido não encontrado.'] });
       }
 
-      // 4. Exclui o pedido do banco de dados
-      await pedido.destroy();
-
-      // 5. Retorna uma mensagem de sucesso
-      return res.json({ message: 'Pedido excluído com sucesso.' });
-    } catch (e) {
-      console.error('ERRO AO EXCLUIR PEDIDO:', e);
-      // Trata erros de chave estrangeira, caso existam tabelas dependentes (ex: portabilidade)
-      if (e.name === 'SequelizeForeignKeyConstraintError') {
-        return res.status(400).json({
-          errors: [
-            'Não é possível excluir este pedido, pois existem dados associados a ele (ex: portabilidade, contratos).',
-          ],
-        });
+      // Lógica de permissão: admin pode apagar qualquer um, cliente só o seu
+      if (!req.isAdmin && pedido.cod_cliente !== req.clienteId) {
+        return res
+          .status(403)
+          .json({ errors: ['Você não tem permissão para excluir este pedido.'] });
       }
+
+      // 1. Exclui os registos dependentes DENTRO da transação
+      await Portabilidade.destroy({ where: { cod_pedido: id }, transaction: t });
+      await TermoContrato.destroy({ where: { cod_pedido: id }, transaction: t });
+
+      // 2. Exclui o pedido principal DENTRO da transação
+      await pedido.destroy({ transaction: t });
+
+      // 3. Se tudo correu bem, confirma a transação
+      await t.commit();
+
+      return res.json({
+        message: 'Pedido e todos os seus dados associados foram excluídos com sucesso.',
+      });
+    } catch (e) {
+      // 4. Se algo falhou, desfaz todas as operações
+      await t.rollback();
+      console.error('ERRO AO EXCLUIR PEDIDO:', e);
       return res.status(500).json({ errors: ['Ocorreu um erro ao excluir o pedido.'] });
     }
   }

@@ -53,7 +53,7 @@ export default class Pedido extends Model {
     });
     this.belongsTo(models.Cidade, { foreignKey: 'cod_cidade', as: 'cidade' });
     this.belongsTo(models.TipoVenda, { foreignKey: 'cod_tipo_venda', as: 'tipo_venda' });
-    this.hasMany(models.Portabilidade, { foreignKey: 'cod_pedido', as: 'portabilidades' });
+    this.hasOne(models.Portabilidade, { foreignKey: 'cod_pedido', as: 'portabilidade' });
     this.hasMany(models.TermoContrato, { foreignKey: 'cod_pedido', as: 'termos_contrato' });
   }
 }

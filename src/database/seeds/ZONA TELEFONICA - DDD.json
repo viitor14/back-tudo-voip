@@ -1,0 +1,337 @@
+[
+  {
+    "cod_zona_telefonica": 1,
+    "area_telefonica": 68,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 2,
+    "area_telefonica": 82,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 3,
+    "area_telefonica": 92,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 4,
+    "area_telefonica": 96,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 5,
+    "area_telefonica": 71,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 6,
+    "area_telefonica": 73,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 7,
+    "area_telefonica": 74,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 8,
+    "area_telefonica": 75,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 9,
+    "area_telefonica": 77,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 10,
+    "area_telefonica": 85,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 11,
+    "area_telefonica": 88,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 12,
+    "area_telefonica": 61,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 13,
+    "area_telefonica": 27,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 14,
+    "area_telefonica": 28,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 15,
+    "area_telefonica": 62,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 16,
+    "area_telefonica": 64,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 17,
+    "area_telefonica": 98,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 18,
+    "area_telefonica": 99,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 19,
+    "area_telefonica": 31,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 20,
+    "area_telefonica": 32,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 21,
+    "area_telefonica": 33,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 22,
+    "area_telefonica": 34,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 23,
+    "area_telefonica": 35,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 24,
+    "area_telefonica": 37,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 25,
+    "area_telefonica": 38,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 26,
+    "area_telefonica": 67,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 27,
+    "area_telefonica": 65,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 28,
+    "area_telefonica": 66,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 29,
+    "area_telefonica": 91,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 30,
+    "area_telefonica": 93,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 31,
+    "area_telefonica": 94,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 32,
+    "area_telefonica": 83,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 33,
+    "area_telefonica": 81,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 34,
+    "area_telefonica": 87,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 35,
+    "area_telefonica": 86,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 36,
+    "area_telefonica": 89,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 37,
+    "area_telefonica": 41,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 38,
+    "area_telefonica": 42,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 39,
+    "area_telefonica": 43,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 40,
+    "area_telefonica": 44,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 41,
+    "area_telefonica": 45,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 42,
+    "area_telefonica": 46,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 43,
+    "area_telefonica": 21,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 44,
+    "area_telefonica": 22,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 45,
+    "area_telefonica": 24,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 46,
+    "area_telefonica": 84,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 47,
+    "area_telefonica": 69,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 48,
+    "area_telefonica": 95,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 49,
+    "area_telefonica": 51,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 50,
+    "area_telefonica": 53,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 51,
+    "area_telefonica": 54,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 52,
+    "area_telefonica": 55,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 53,
+    "area_telefonica": 47,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 54,
+    "area_telefonica": 48,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 55,
+    "area_telefonica": 49,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 56,
+    "area_telefonica": 79,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 57,
+    "area_telefonica": 11,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 58,
+    "area_telefonica": 12,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 59,
+    "area_telefonica": 13,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 60,
+    "area_telefonica": 14,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 61,
+    "area_telefonica": 15,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 62,
+    "area_telefonica": 16,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 63,
+    "area_telefonica": 17,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 64,
+    "area_telefonica": 18,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 65,
+    "area_telefonica": 19,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 66,
+    "area_telefonica": 63,
+    "status": "True"
+  },
+  {
+    "cod_zona_telefonica": 67,
+    "area_telefonica": 97,
+    "status": "True"
+  }
+]
